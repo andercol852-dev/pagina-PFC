@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Institucional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border-top: 5px solid #2a5298;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background-color: #2a5298;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #1e3c72;
+        }
+
+        .btn-view {
+            background-color: #28a745;
+        }
+
+        .btn-view:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #fff;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #eaeaea;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .container {
+                margin: 1.5rem auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Panel de Control Institucional</h1>
+        <p>Selecciona el módulo al que deseas ingresar</p>
+    </header>
+
+    <div class="container">
+        <div class="grid-menu">
+            <!-- Módulo de Asistencia -->
+            <div class="card">
+                <div>
+                    <h3>Control de Asistencia</h3>
+                    <p>Registra la asistencia diaria de los estudiantes por grado y sección de forma rápida.</p>
+                </div>
+                <a href="asistencia.html" class="btn">Ingresar</a>
+            </div>
+
+            <!-- Módulo de Inventario -->
+            <div class="card" style="border-top-color: #e67e22;">
+                <div>
+                    <h3>Inventario y Daños</h3>
+                    <p>Reporta el estado del mobiliario y equipo de la institución, indicando si hay daños o piezas afectadas.</p>
+                </div>
+                <a href="inventario.html" class="btn" style="background-color: #e67e22;">Ingresar</a>
+            </div>
+
+            <!-- Módulo de Excursiones -->
+            <div class="card" style="border-top-color: #9b59b6;">
+                <div>
+                    <h3>Gestión de Excursiones</h3>
+                    <p>Organiza salidas, controla alumnos asistentes, ausentes y el registro detallado de acompañantes.</p>
+                </div>
+                <a href="excursiones.html" class="btn" style="background-color: #9b59b6;">Ingresar</a>
+            </div>
+
+            <!-- Módulo de Reportes Generales (La otra página con todos los datos) -->
+            <div class="card" style="border-top-color: #28a745;">
+                <div>
+                    <h3>Panel de Reportes y Datos</h3>
+                    <p>Visualiza en tiempo real toda la asistencia, reportes de inventario y datos de excursiones guardados.</p>
+                </div>
+                <a href="reportes.html" class="btn btn-view">Ver Registros</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Sistema de Gestión Escolar</p>
+    </footer>
+
+</body>
+</html>
