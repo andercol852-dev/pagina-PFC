@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #f4f6f9;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
             display: flex;
             flex-direction: column;
@@ -21,59 +21,66 @@
         }
 
         header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
             color: white;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1rem;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 15px rgba(255, 65, 108, 0.3);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
         }
 
         header h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             margin-bottom: 0.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
         }
 
         header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
         }
 
         .container {
             max-width: 1100px;
-            margin: 3rem auto;
+            margin: 2.5rem auto;
             padding: 0 1.5rem;
             flex: 1;
         }
 
         .grid-menu {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 2rem;
         }
 
         .card {
             background: white;
-            border-radius: 12px;
-            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            padding: 2.5rem 1.8rem;
             text-align: center;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
             cursor: pointer;
-            border-top: 5px solid #2a5298;
+            border-top: 6px solid #ff416c;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.15);
         }
 
         .card h3 {
-            font-size: 1.5rem;
-            color: #1e3c72;
-            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            color: #222;
+            margin-bottom: 0.8rem;
         }
 
         .card p {
@@ -84,45 +91,53 @@
         }
 
         .btn {
-            background-color: #2a5298;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 6px;
-            font-size: 1rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
             font-weight: 600;
             text-decoration: none;
-            transition: background 0.2s;
+            transition: opacity 0.2s, transform 0.2s;
             display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 65, 108, 0.4);
         }
 
         .btn:hover {
-            background-color: #1e3c72;
+            opacity: 0.9;
+            transform: scale(1.03);
         }
 
-        .btn-view {
-            background-color: #28a745;
-        }
+        /* Colores únicos para cada tarjeta */
+        .card-asistencia { border-top-color: #4e54c8; }
+        .card-asistencia .btn { background: linear-gradient(135deg, #4e54c8, #8f94fb); box-shadow: 0 4px 10px rgba(78, 84, 200, 0.4); }
 
-        .btn-view:hover {
-            background-color: #218838;
-        }
+        .card-inventario { border-top-color: #f7971e; }
+        .card-inventario .btn { background: linear-gradient(135deg, #f7971e, #ffd200); box-shadow: 0 4px 10px rgba(247, 151, 30, 0.4); }
+
+        .card-excursion { border-top-color: #11998e; }
+        .card-excursion .btn { background: linear-gradient(135deg, #11998e, #38ef7d); box-shadow: 0 4px 10px rgba(17, 153, 142, 0.4); }
+
+        .card-reunion { border-top-color: #834d9b; }
+        .card-reunion .btn { background: linear-gradient(135deg, #834d9b, #d04ed6); box-shadow: 0 4px 10px rgba(131, 77, 155, 0.4); }
+
+        .card-registros { border-top-color: #00b09b; }
+        .card-registros .btn { background: linear-gradient(135deg, #00b09b, #96c93d); box-shadow: 0 4px 10px rgba(0, 176, 155, 0.4); }
 
         footer {
             text-align: center;
             padding: 1.5rem;
-            background-color: #fff;
-            color: #777;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #555;
             font-size: 0.9rem;
-            border-top: 1px solid #eaeaea;
+            margin-top: auto;
+            backdrop-filter: blur(5px);
         }
 
         @media (max-width: 600px) {
             header h1 {
-                font-size: 1.8rem;
-            }
-            .container {
-                margin: 1.5rem auto;
+                font-size: 2rem;
             }
         }
     </style>
@@ -130,53 +145,11 @@
 <body>
 
     <header>
-        <h1>Panel de Control Institucional</h1>
-        <p>Selecciona el módulo al que deseas ingresar</p>
+        <h1>Gestión Institucional</h1>
+        <p>Selecciona una opción para comenzar a trabajar</p>
     </header>
 
     <div class="container">
         <div class="grid-menu">
             <!-- Módulo de Asistencia -->
-            <div class="card">
-                <div>
-                    <h3>Control de Asistencia</h3>
-                    <p>Registra la asistencia diaria de los estudiantes por grado y sección de forma rápida.</p>
-                </div>
-                <a href="asistencia.html" class="btn">Ingresar</a>
-            </div>
-
-            <!-- Módulo de Inventario -->
-            <div class="card" style="border-top-color: #e67e22;">
-                <div>
-                    <h3>Inventario y Daños</h3>
-                    <p>Reporta el estado del mobiliario y equipo de la institución, indicando si hay daños o piezas afectadas.</p>
-                </div>
-                <a href="inventario.html" class="btn" style="background-color: #e67e22;">Ingresar</a>
-            </div>
-
-            <!-- Módulo de Excursiones -->
-            <div class="card" style="border-top-color: #9b59b6;">
-                <div>
-                    <h3>Gestión de Excursiones</h3>
-                    <p>Organiza salidas, controla alumnos asistentes, ausentes y el registro detallado de acompañantes.</p>
-                </div>
-                <a href="excursiones.html" class="btn" style="background-color: #9b59b6;">Ingresar</a>
-            </div>
-
-            <!-- Módulo de Reportes Generales (La otra página con todos los datos) -->
-            <div class="card" style="border-top-color: #28a745;">
-                <div>
-                    <h3>Panel de Reportes y Datos</h3>
-                    <p>Visualiza en tiempo real toda la asistencia, reportes de inventario y datos de excursiones guardados.</p>
-                </div>
-                <a href="reportes.html" class="btn btn-view">Ver Registros</a>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 Sistema de Gestión Escolar</p>
-    </footer>
-
-</body>
-</html>
+            <div class
