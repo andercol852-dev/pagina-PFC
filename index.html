@@ -3,204 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gestión Institucional</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            padding: 2.5rem 1rem;
-            text-align: center;
-            box-shadow: 0 6px 15px rgba(255, 65, 108, 0.3);
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.95;
-            font-weight: 300;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 2.5rem auto;
-            padding: 0 1.5rem;
-            flex: 1;
-        }
-
-        .grid-menu {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 2.5rem 1.8rem;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border-top: 6px solid #ff416c;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 18px 35px rgba(0,0,0,0.15);
-        }
-
-        .card h3 {
-            font-size: 1.4rem;
-            color: #222;
-            margin-bottom: 0.8rem;
-        }
-
-        .card p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
-            line-height: 1.5;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: opacity 0.2s, transform 0.2s;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(255, 65, 108, 0.4);
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-            transform: scale(1.03);
-        }
-
-        /* Colores únicos para cada tarjeta */
-        .card-asistencia { border-top-color: #4e54c8; }
-        .card-asistencia .btn { background: linear-gradient(135deg, #4e54c8, #8f94fb); box-shadow: 0 4px 10px rgba(78, 84, 200, 0.4); }
-
-        .card-inventario { border-top-color: #f7971e; }
-        .card-inventario .btn { background: linear-gradient(135deg, #f7971e, #ffd200); box-shadow: 0 4px 10px rgba(247, 151, 30, 0.4); }
-
-        .card-excursion { border-top-color: #11998e; }
-        .card-excursion .btn { background: linear-gradient(135deg, #11998e, #38ef7d); box-shadow: 0 4px 10px rgba(17, 153, 142, 0.4); }
-
-        .card-reunion { border-top-color: #834d9b; }
-        .card-reunion .btn { background: linear-gradient(135deg, #834d9b, #d04ed6); box-shadow: 0 4px 10px rgba(131, 77, 155, 0.4); }
-
-        .card-registros { border-top-color: #00b09b; }
-        .card-registros .btn { background: linear-gradient(135deg, #00b09b, #96c93d); box-shadow: 0 4px 10px rgba(0, 176, 155, 0.4); }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: rgba(255, 255, 255, 0.7);
-            color: #555;
-            font-size: 0.9rem;
-            margin-top: auto;
-            backdrop-filter: blur(5px);
-        }
-
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    <title>Reporte de Daños Escolares - Complejo Educativo</title>
+    <!-- Tailwind CSS para un diseño moderno y responsivo -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS para exportar a Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
 
-    <header>
-        <h1>Gestión Institucional</h1>
-        <p>Selecciona una opción para comenzar a trabajar</p>
+    <!-- Header -->
+    <header class="bg-blue-900 text-white shadow-md">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-800 p-2.5 rounded-xl">
+                    <i class="fa-solid fa-school text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Control de Daños Escolares</h1>
+                    <p class="text-xs text-blue-200">Complejo Educativo</p>
+                </div>
+            </div>
+            <a href="admin.html" class="bg-blue-700 hover:bg-blue-600 px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+                <i class="fa-solid fa-gauge-high"></i> Ver Panel Admin
+            </a>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="grid-menu">
-            <!-- Módulo de Asistencia -->
-            <div class="card card-asistencia">
-                <div>
-                    <h3>Control de Asistencia</h3>
-                    <p>Registra y lleva el control diario de la asistencia de los estudiantes.</p>
-                </div>
-                <a href="asistencia.html" class="btn">Ingresar</a>
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+            <div class="mb-6 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-900">Nuevo Reporte de Incidencia</h2>
+                <p class="text-sm text-slate-500">Selecciona el tipo de ubicación y el elemento dañado para registrarlo en el sistema.</p>
             </div>
 
-            <!-- Módulo de Inventario -->
-            <div class="card card-inventario">
+            <form id="reportForm" class="space-y-6">
+                <!-- Ubicación: Escuela o Grado -->
                 <div>
-                    <h3>Inventario y Daños</h3>
-                    <p>Gestiona el mobiliario y reporta cualquier daño dentro de la institución.</p>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">¿Dónde se encuentra el daño?</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="border border-slate-200 rounded-xl p-4 flex items-center space-x-3 cursor-pointer hover:border-blue-500 hover:bg-blue-50/30 transition has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+                            <input type="radio" name="ubicacionTipo" value="Escuela" class="text-blue-600 focus:ring-blue-500" required onchange="toggleUbicacion('Escuela')">
+                            <div>
+                                <span class="font-semibold block text-slate-800">Infraestructura / Escuela</span>
+                                <span class="text-xs text-slate-500">Áreas comunes, pasillos, baños, dirección, etc.</span>
+                            </div>
+                        </label>
+                        <label class="border border-slate-200 rounded-xl p-4 flex items-center space-x-3 cursor-pointer hover:border-blue-500 hover:bg-blue-50/30 transition has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+                            <input type="radio" name="ubicacionTipo" value="Grado" class="text-blue-600 focus:ring-blue-500" required onchange="toggleUbicacion('Grado')">
+                            <div>
+                                <span class="font-semibold block text-slate-800">Grado / Salón de Clases</span>
+                                <span class="text-xs text-slate-500">Aula específica de bachillerato o contador.</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
-                <a href="inventario.html" class="btn">Ingresar</a>
-            </div>
 
-            <!-- Módulo de Excursiones -->
-            <div class="card card-excursion">
-                <div>
-                    <h3>Excursiones</h3>
-                    <p>Organiza salidas, cuenta alumnos que irán, ausentes y acompañantes.</p>
+                <!-- Opciones si es Grado (Oculto por defecto) -->
+                <div id="gradoContainer" class="hidden space-y-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Detalles del Grado</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Especialidad y Año</label>
+                            <select id="especialidadGrado" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="">Seleccione especialidad / año</option>
+                                <option value="1° Bachillerato General">1° Bachillerato General</option>
+                                <option value="2° Bachillerato General">2° Bachillerato General</option>
+                                <option value="1° Contador">1° Contador</option>
+                                <option value="2° Contador">2° Contador</option>
+                                <option value="3° Contador">3° Contador</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Sección</label>
+                            <select id="seccionGrado" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="">Seleccione sección</option>
+                                <option value="Sección A">Sección A</option>
+                                <option value="Sección B">Sección B</option>
+                                <option value="Sección C">Sección C</option>
+                                <option value="Sección D">Sección D</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <a href="excursiones.html" class="btn">Ingresar</a>
-            </div>
 
-            <!-- Módulo de Creación de Reuniones (NUEVO) -->
-            <div class="card card-reunion">
-                <div>
-                    <h3>Crear Reunión / Evento</h3>
-                    <p>Programa reuniones o eventos especiales para la comunidad educativa.</p>
+                <!-- Opciones si es Escuela (Oculto por defecto) -->
+                <div id="escuelaContainer" class="hidden space-y-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Área de la Escuela</h3>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Especifique el lugar</label>
+                        <input type="text" id="lugarEscuela" placeholder="Ej. Baños de varones, Cancha principal, Dirección..." class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
                 </div>
-                <a href="reuniones.html" class="btn">Crear</a>
-            </div>
 
-            <!-- Módulo de Registros Generales -->
-            <div class="card card-registros">
-                <div>
-                    <h3>Ver Registros</h3>
-                    <p>Visualiza en tiempo real toda la información enviada de asistencia, inventarios y más.</p>
+                <!-- Elemento dañado y detalles -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Elemento Dañado</label>
+                        <select id="elementoDañado" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                            <option value="">Seleccione el objeto</option>
+                            <option value="Silla Pupitre">Silla Pupitre</option>
+                            <option value="Mesa / Escritorio">Mesa / Escritorio</option>
+                            <option value="Lámpara / Foco">Lámpara / Foco</option>
+                            <option value="Ventana / Vidrio">Ventana / Vidrio</option>
+                            <option value="Puerta / Cerradura">Puerta / Cerradura</option>
+                            <option value="Pizarra">Pizarra</option>
+                            <option value="Ventilador / Aire acondicionado">Ventilador / Aire acondicionado</option>
+                            <option value="Toma corriente / Cableado">Toma corriente / Cableado</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Reportado por (Nombre)</label>
+                        <input type="text" id="reportadoPor" placeholder="Tu nombre completo" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    </div>
                 </div>
-                <a href="reportes.html" class="btn">Ver Datos</a>
-            </div>
+
+                <!-- Descripción del daño -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Descripción del problema</label>
+                    <textarea id="descripcionDaño" rows="3" placeholder="Describa brevemente qué daño tiene el objeto..." class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required></textarea>
+                </div>
+
+                <!-- Imagen o Foto opcional -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Evidencia Fotográfica (Opcional)</label>
+                    <input type="file" id="imagenDaño" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
+                    <button type="submit" class="flex-grow bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-5 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Reporte
+                    </button>
+                    <button type="button" onclick="exportarExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 px-5 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-file-excel"></i> Descargar Excel
+                    </button>
+                </div>
+            </form>
         </div>
-    </div>
+    </main>
 
-    <footer>
-        <p>&copy; 2026 Sistema Escolar</p>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        Complejo Educativo Pedro F. Cantor &copy; 2026 - Sistema de Control de Daños
     </footer>
 
-</body>
-</html>
+    <!-- Notificación emergente -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-50">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMessage" class="text-sm font-medium">Reporte enviado con éxito</span>
+    </div>
+
+    <!-- Script de funcionamiento -->
+    <script>
+        function toggleUbicacion(tipo) {
+            const gradoContainer = document.getElementById('gradoContainer');
+            const escuelaContainer = document.getElementById('escuelaContainer');
+            
+            if (tipo === 'Grado') {
+                gradoContainer.classList.remove('hidden');
+                escuelaContainer.classList.add('hidden');
+                document.getElementById('especialidadGrado').required = true;
+                document.getElementById('seccionGrado').required = true;
+                document.getElementById('lugarEscuela').required = false;
+            } else {
+                gradoContainer.classList.add('hidden');
+                escuelaContainer.classList.remove('hidden');
+                document.getElementById('especialidadGrado').required = false;
+                document.getElementById('seccionGrado').required = false;
+                document.getElementById('lugarEscuela').required = true;
+            }
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.textContent = message;
+            if (isError) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-400';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const ubicacionTipo = document.querySelector('input[name="ubicacionTipo"]:checked').value;
+            let ubicacionDetalle = '';
+
+            if (ubicacionTipo === 'Grado') {
+                const esp = document.getElementById('especialidadGrado').value;
+                const sec = document.getElementById('seccionGrado').value;
+                ubicacionDetalle = `${esp} - ${sec}`;
+            } else {
+                ubicacionDetalle = document.getElementById('lugarEscuela').value;
+            }
+
+            const elemento = document.getElementById('elementoDañado').value;
+            const reportadoPor = document.getElementById('reportadoPor').value;
+            const descripcion = document.getElementById('descripcionDaño').value;
+            const imageInput = document.getElementById('imagenDaño');
+
+            const guardarReporteEnStorage = (imagenUrl = '') => {
+                const nuevoReporte = {
+                    id: 'REP-' + Math.floor(1000 + Math.random() * 9000),
+                    fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    tipoUbicacion: ubicacionTipo,
+                    ubicacion: ubicacionDetalle,
+                    elemento: elemento,
+                    reportadoPor: reportadoPor,
+                    descripcion: descripcion,
+                    imagen: imagenUrl,
+                    estado: 'Pendiente'
+                };
+
+                // Obtener reportes anteriores o array vacío
+                let reportes = JSON.parse(localStorage.getItem('school_maintenance_reports')) || [];
+                // Añadir al principio
+                reportes.unshift(nuevoReporte);
+                // Guardar
+                localStorage.setItem('school_maintenance_reports', JSON.stringify(reportes));
+
+                showToast('¡Reporte enviado y registrado con éxito!');
+                document.getElementById('reportForm').reset();
+                document.getElementById('gradoContainer').classList.add('hidden');
