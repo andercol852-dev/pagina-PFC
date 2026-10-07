@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Asistencia a Excursión - Complejo Educativo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white shadow-xl sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-inner border border-white/20">
+                    <i class="fa-solid fa-bus text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-tight">Control de Excursión</h1>
+                    <p class="text-xs text-emerald-200 font-medium">Complejo Educativo Pedro F. Cantor</p>
+                </div>
+            </div>
+            <!-- Botón de regreso al Inicio -->
+            <a href="index.html" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 shadow-sm">
+                <i class="fa-solid fa-house"></i> <span>Inicio</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white p-6 sm:p-10 transition-all duration-300">
+            <div class="mb-8 border-b border-slate-100 pb-5">
+                <div class="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">Módulo de Profesores Cloud</div>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Registro de Asistencia por Grado</h2>
+                <p class="text-sm text-slate-500 mt-1">Ingresa el reporte consolidado de tu sección para enviarlo directamente a la nube.</p>
+            </div>
+
+            <form id="excursionForm" class="space-y-6">
+                <!-- Nombre del Profesor -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Nombre del Profesor Responsable</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </span>
+                        <input type="text" id="nombreProfesor" placeholder="Ej. Prof. Carlos Mendoza" class="w-full bg-white border border-slate-300 rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition shadow-sm" required>
+                    </div>
+                </div>
+
+                <!-- Grado y Especialidad -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Especialidad y Año</label>
+                        <select id="especialidadExcursion" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition shadow-sm" required>
+                            <option value="">Seleccione especialidad / año</option>
+                            <option value="1° Bachillerato General">1° Bachillerato General</option>
+                            <option value="2° Bachillerato General">2° Bachillerato General</option>
+                            <option value="1° Contador">1° Contador</option>
+                            <option value="2° Contador">2° Contador</option>
+                            <option value="3° Contador">3° Contador</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Sección</label>
+                        <select id="seccionExcursion" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition shadow-sm" required>
+                            <option value="">Seleccione sección</option>
+                            <option value="Sección A">Sección A</option>
+                            <option value="Sección B">Sección B</option>
+                            <option value="Sección C">Sección C</option>
+                            <option value="Sección D">Sección D</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Contadores numéricos -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100">
+                    <div>
+                        <label class="block text-xs font-bold text-emerald-900 mb-1">Alumnos que Asistirán</label>
+                        <input type="number" id="alumnosAsistiran" min="0" value="0" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm font-bold text-center focus:ring-2 focus:ring-emerald-500 outline-none transition shadow-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-emerald-900 mb-1">Alumnos que No Asistirán</label>
+                        <input type="number" id="alumnosNoAsistiran" min="0" value="0" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm font-bold text-center focus:ring-2 focus:ring-emerald-500 outline-none transition shadow-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-emerald-900 mb-1">Acompañantes / Padres</label>
+                        <input type="number" id="acompanantes" min="0" value="0" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm font-bold text-center focus:ring-2 focus:ring-emerald-500 outline-none transition shadow-sm" required>
+                    </div>
+                </div>
+
+                <!-- Botón de Envío -->
+                <div class="pt-4 border-t border-slate-100">
+                    <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-emerald-200 transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Reporte a la Nube
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/60 backdrop-blur-md border-t border-slate-200 py-4 text-center text-xs text-slate-500 font-medium">
+        Complejo Educativo Pedro F. Cantor &copy; 2026 - Control de Excursiones
+    </footer>
+
+    <!-- Notificación Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-50 border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-semibold">Reporte guardado con éxito</span>
+    </div>
+
+    <!-- Script de Firebase integrado -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDadrGKG8ye32lc8UgOBb2N4VLCe85ASoE",
+            authDomain: "escuelapedrofcantor.firebaseapp.com",
+            projectId: "escuelapedrofcantor",
+            storageBucket: "escuelapedrofcantor.firebasestorage.app",
+            messagingSenderId: "286529428609",
+            appId: "1:286529428609:web:6802a61661fb14baae8180"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.textContent = message;
+            if (isError) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-400 text-lg';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400 text-lg';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        document.getElementById('excursionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const profesor = document.getElementById('nombreProfesor').value.trim();
+            const especialidad = document.getElementById('especialidadExcursion').value;
+            const seccion = document.getElementById('seccionExcursion').value;
+            const asistiran = document.getElementById('alumnosAsistiran').value;
+            const noAsistiran = document.getElementById('alumnosNoAsistiran').value;
+            const acompanantes = document.getElementById('acompanantes').value;
+
+            const nuevoReporte = {
+                id: 'EXC-' + Math.floor(1000 + Math.random() * 9000),
+                profesor,
+                especialidad,
+                seccion,
+                asistiran,
+                noAsistiran,
+                acompanantes,
+                fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            };
+
+            // Enviar a la base de datos de Firebase bajo la ruta 'excursiones'
+            push(ref(db, 'excursiones'), nuevoReporte)
+                .then(() => {
+                    showToast('¡Reporte de excursión enviado a la nube con éxito!');
+                    document.getElementById('excursionForm').reset();
+                    document.getElementById('alumnosAsistiran').value = '0';
+                    document.getElementById('alumnosNoAsistiran').value = '0';
+                    document.getElementById('acompanantes').value = '0';
+                })
+                .catch((error) => {
+                    showToast('Error al enviar a la nube: ' + error.message, true);
+                });
+        });
+    </script>
+</body>
+</html>

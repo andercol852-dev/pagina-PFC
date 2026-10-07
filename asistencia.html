@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Dinámico de Asistencia Cloud</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .form-card {
+            background: #ffffff;
+            color: #1e293b;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-top: 8px solid #2563eb;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.85rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #fff;
+        }
+
+        input:focus, select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .lista-alumnos-box {
+            background: #f8fafc;
+            border: 2px dashed #94a3b8;
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .lista-alumnos-box h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .alumno-item {
+            background: #ffffff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            border-left: 5px solid #ef4444;
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .alumno-nombre label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0;
+        }
+
+        .alumno-nombre input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #ef4444;
+            margin-right: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            text-align: center;
+        }
+
+        .btn:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            background: #64748b;
+            box-shadow: 0 4px 15px rgba(100, 116, 139, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            line-height: normal;
+        }
+
+        .btn-back:hover {
+            background: #475569;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: rgba(15, 23, 42, 0.8);
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 700px) {
+            .row, .alumno-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Control de Asistencia Cloud</h1>
+        <p>Selecciona grado y sección para desplegar la lista de alumnos y sincronizar en la nube</p>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            <form id="asistenciaForm">
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" required>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="grado">Grado:</label>
+                        <select id="grado" required>
+                            <option value="">Selecciona el grado...</option>
+                            <option value="1° Bachillerato">1° Bachillerato</option>
+                            <option value="2° Bachillerato">2° Bachillerato</option>
+                            <option value="3° Bachillerato">3° Bachillerato</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="seccion">Sección:</label>
+                        <select id="seccion" required>
+                            <option value="">Selecciona la sección...</option>
+                            <option value="Sección A">Sección A</option>
+                            <option value="Sección B">Sección B</option>
+                            <option value="Sección C">Sección C</option>
+                            <option value="Sección D">Sección D</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="presentes">Alumnos Presentes:</label>
+                        <input type="number" id="presentes" min="0" required placeholder="Ej. 35">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ausentesTotal">Alumnos Ausentes:</label>
+                        <input type="number" id="ausentesTotal" min="0" required placeholder="Se calcula solo" readonly style="background-color: #f1f5f9;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="encargado">Docente / Encargado:</label>
+                    <input type="text" id="encargado" required placeholder="Nombre del docente">
+                </div>
+
+                <!-- Lista de alumnos dinámica según el grado y sección -->
+                <div class="lista-alumnos-box" id="seccionListaAlumnos">
+                    <h3 id="tituloLista">Lista de Alumnos</h3>
+                    <div id="contenedorAlumnos">
+                        <!-- Se llena automáticamente con JavaScript -->
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <a href="index.html" class="btn btn-back">Regresar</a>
+                    <button type="submit" class="btn">Guardar Asistencia en la Nube</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Complejo Educativo Pedro F. Cantor - Sistema Escolar</p>
+    </footer>
+
+    <!-- Script de Firebase y funcionamiento -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDadrGKG8ye32lc8UgOBb2N4VLCe85ASoE",
+            authDomain: "escuelapedrofcantor.firebaseapp.com",
+            projectId: "escuelapedrofcantor",
+            storageBucket: "escuelapedrofcantor.firebasestorage.app",
+            messagingSenderId: "286529428609",
+            appId: "1:286529428609:web:6802a61661fb14baae8180"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const listasPorSeccion = {
+            "1° Bachillerato-Sección A": [
+                "1. Alan Pérez", "2. Beatriz Gómez", "3. Carlos Rivas", "4. Diana Morales", "5. Ernesto Flores",
+                "6. Fabiola Cruz", "7. Gustavo Henríquez", "8. Helena Sibrián", "9. Iván Martínez", "10. Julia Romero",
+                "11. Kevin Amaya", "12. Lorena Bonilla", "13. Mario Turcios", "14. Nohemí Coto", "15. Oscar Guardado"
+            ],
+            "1° Bachillerato-Sección B": [
+                "1. Paola Ventura", "2. Quintín Alfaro", "3. Rosa Lemus", "4. Sergio Zepeda", "5. Tatiana Castillo",
+                "6. Ulises Valencia", "7. Valeria Pineda", "8. Walter Meléndez", "9. Ximena Orellana", "10. Yessenia Ramírez",
+                "11. Aarón Guevara", "12. Blanca Portillo", "13. Cristian Rivas", "14. Daniela Santos", "15. Eduardo Vásquez"
+            ],
+            "1° Bachillerato-Sección C": [
+                "1. Alexander Pineda", "2. Bryan Meléndez", "3. Carlos Hernández", "4. Daniel Orellana", 
+                "5. Eduardo Ramírez", "6. Fernando Flores", "7. Gabriel Morales", "8. Héctor Guevara", 
+                "9. Isaac Portillo", "10. Javier Rivas", "11. Kevin Santos", "12. Luis Martínez", 
+                "13. Manuel Aguilar", "14. Nelson Vásquez", "15. Oscar Romero", "16. Pablo Benítez", 
+                "17. Rafael Campos", "18. Samuel Amaya", "19. Tomás Salguero", "20. Víctor Cruz", 
+                "21. Alejandra López", "22. Brenda Galdámez", "23. Carla Mendoza", "24. Diana Coto", 
+                "25. Elena Guardado", "26. Fátima Palacios", "27. Gabriela Sibrián", "28. Jessica Turcios", 
+                "29. Karina Bonilla", "30. Lucía Escobar", "31. María Orellana", "32. Natalia Quinteros", 
+                "33. Paola Menjívar", "34. Raquel Alfaro", "35. Sofía Lemus", "36. Valeria Zepeda", 
+                "37. Andrea Castillo", "38. Daniela Valencia"
+            ],
+            "1° Bachillerato-Sección D": [
+                "1. Brenda Fuentes", "2. Camilo Mendez", "3. David Alfaro", "4. Eva Luna", "5. Francisco Javier",
+                "6. Gloria Estefan", "7. Hugo Boss", "8. Inés Guedez", "9. Jorge Negrete", "10. Karla La Paloma"
+            ],
+            "2° Bachillerato-Sección A": [
+                "1. Adrián Melgar", "2. Camila Durán", "3. Diego Solares", "4. Estefany Portillo", "5. Fernando Masís",
+                "6. Gerson Crespín", "7. Hazel Molina", "8. Josué Menjívar", "9. Katherine Turcios", "10. Leonardo Flores"
+            ],
+            "2° Bachillerato-Sección B": [
+                "1. Mauricio Salazar", "2. Nicole Palacios", "3. Omar Zelaya", "4. Patricia Escobar", "5. Ricardo Fuentes",
+                "6. Saraí Galdámez", "7. Tania Orellana", "8. Ulises Ramos", "9. Vanessa Cruz", "10. Wendy Castillo"
+            ],
+            "2° Bachillerato-Sección C": [
+                "1. Abelardo Ramos", "2. Brenda Sibrián", "3. Carlos Pineda", "4. Daniela Galdámez", "5. Esteban López",
+                "6. Florencia Castro", "7. Gerardo Alfaro", "8. Hilda Marroquín", "9. Ismael Guardado", "10. Jessica Bonilla"
+            ],
+            "2° Bachillerato-Sección D": [
+                "1. Karen Meléndez", "2. Luis Orellana", "3. María José Coto", "4. Néstor Rivas", "5. Paola Vásquez",
+                "6. Rodrigo Lemus", "7. Silvana Zepeda", "8. Tomás Benítez", "9. Valeria Orellana", "10. Xiomara Reyes"
+            ],
+            "3° Bachillerato-Sección A": [
+                "1. Alberto Castillo", "2. Brenda Martínez", "3. Carlos Mendoza", "4. Diana Rivas", "5. Eduardo Coto",
+                "6. Fabiola Ramírez", "7. Gabriel Sibrián", "8. Helga Guardado", "9. Iván Turcios", "10. Julia Bonilla"
+            ],
+            "3° Bachillerato-Sección B": [
+                "1. Kevin Orellana", "2. Lucía Palacios", "3. Manuel Zelaya", "4. Natalia Escobar", "5. Oscar Fuentes",
+                "6. Patricia Galdámez", "7. Rafael Orellana", "8. Samuel Ramos", "9. Tatiana Cruz", "10. Víctor Castillo"
+            ],
+            "3° Bachillerato-Sección C": [
+                "1. Alejandra Ramos", "2. Bryan Sibrián", "3. Carla Pineda", "4. Daniel Galdámez", "5. Elena López",
+                "6. Fernando Castro", "7. Gabriela Alfaro", "8. Héctor Marroquín", "9. Isaac Guardado", "10. Karina Bonilla"
+            ],
+            "3° Bachillerato-Sección D": [
+                "1. Lucas Meléndez", "2. Marcela Orellana", "3. Noé Coto", "4. Paulina Rivas", "5. René Vásquez",
+                "6. Sofía Zepeda", "7. Ulises Benítez", "8. Verónica Orellana", "9. Walter Reyes", "10. Ximena Castillo"
+            ]
+        };
+
+        const gradoSelect = document.getElementById('grado');
+        const seccionSelect = document.getElementById('seccion');
+        const cajaAlumnos = document.getElementById('seccionListaAlumnos');
+        const contenedorAlumnos = document.getElementById('contenedorAlumnos');
+        const tituloLista = document.getElementById('tituloLista');
+        const inputAusentes = document.getElementById('ausentesTotal');
+
+        function actualizarListaAlumnos() {
+            const grado = gradoSelect.value;
+            const seccion = seccionSelect.value;
+
+            if (grado && seccion) {
+                const clave = `${grado}-${seccion}`;
+                const alumnos = listasPorSeccion[clave] || [
+                    "1. Estudiante General 1", "2. Estudiante General 2", "3. Estudiante General 3"
+                ];
+
+                tituloLista.innerText = `Lista de Alumnos (${grado} - ${seccion}) - Marca ausente y selecciona motivo:`;
+                contenedorAlumnos.innerHTML = '';
+
+                alumnos.forEach((nombre, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'alumno-item';
+                    div.innerHTML = `
+                        <div class="alumno-nombre">
+                            <label>
+                                <input type="checkbox" class="check-ausente" data-index="${idx}" data-alumno="${nombre}"> 
+                                <span>${nombre}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <select class="motivo-select" data-index="${idx}" disabled style="padding: 0.5rem; font-size: 0.9rem;">
+                                <option value="Presente">Asistió</option>
+                                <option value="Enfermedad">Enfermedad</option>
+                                <option value="Permiso justificado">Permiso justificado</option>
+                                <option value="Sin justificación">Sin justificación</option>
+                                <option value="Cita médica">Cita médica</option>
+                            </select>
+                        </div>
+                    `;
+                    contenedorAlumnos.appendChild(div);
+                });
+
+                cajaAlumnos.style.display = 'block';
+                configurarEventosCheckboxes();
+                actualizarConteoAusentes();
+            } else {
+                cajaAlumnos.style.display = 'none';
+                contenedorAlumnos.innerHTML = '';
+                inputAusentes.value = '';
+            }
+        }
+
+        gradoSelect.addEventListener('change', actualizarListaAlumnos);
+        seccionSelect.addEventListener('change', actualizarListaAlumnos);
+
+        function configurarEventosCheckboxes() {
+            const checkboxes = document.querySelectorAll('.check-ausente');
+            
+            checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                    const idx = this.getAttribute('data-index');
+                    const selectMotivo = document.querySelector(`.motivo-select[data-index="${idx}"]`);
+                    
+                    if (this.checked) {
+                        selectMotivo.disabled = false;
+                        selectMotivo.value = 'Sin justificación';
+                    } else {
+                        selectMotivo.disabled = true;
+                        selectMotivo.value = 'Presente';
+                    }
+                    actualizarConteoAusentes();
+                });
+            });
+        }
+
+        function actualizarConteoAusentes() {
+            const marcados = document.querySelectorAll('.check-ausente:checked').length;
+            inputAusentes.value = marcados;
+        }
+
+        document.getElementById('asistenciaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let ausentesDetalle = [];
+            document.querySelectorAll('.check-ausente').forEach((checkbox) => {
+                if (checkbox.checked) {
+                    const idx = checkbox.getAttribute('data-index');
+                    const alumno = checkbox.getAttribute('data-alumno');
+                    const selectMotivo = document.querySelector(`.motivo-select[data-index="${idx}"]`);
+                    const motivo = selectMotivo ? selectMotivo.value : 'Sin justificación';
+                    ausentesDetalle.push(`${alumno} [Motivo: ${motivo}]`);
+                }
+            });
+
+            const asistenciaData = {
+                id: 'AST-' + Math.floor(1000 + Math.random() * 9000),
+                tipo: 'Asistencia',
+                fecha: document.getElementById('fecha').value,
+                gradoSeccion: `${gradoSelect.value} - ${seccionSelect.value}`,
+                presentes: document.getElementById('presentes').value,
+                ausentesTotal: inputAusentes.value,
+                detalleAusentes: ausentesDetalle.length > 0 ? ausentesDetalle.join(', ') : 'Ninguno (Todos presentes)',
+                encargado: document.getElementById('encargado').value,
+                timestamp: new Date().getTime(),
+                fechaCreacion: new Date().toLocaleString()
+            };
+
+            // Enviar los datos a Firebase Realtime Database en la ruta 'asistencia'
+            push(ref(db, 'asistencia'), asistenciaData)
+                .then(() => {
+                    alert('¡Asistencia registrada en la nube con éxito!');
+                    document.getElementById('asistenciaForm').reset();
+                    cajaAlumnos.style.display = 'none';
+                    inputAusentes.value = '';
+                })
+                .catch((error) => {
+                    alert('Error al enviar a la nube: ' + error.message);
+                });
+        });
+    </script>
+
+</body>
+</html>

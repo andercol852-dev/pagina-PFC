@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Daños Escolares - Complejo Educativo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-sky-50 to-blue-100 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header Vibrante -->
+    <header class="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-800 text-white shadow-xl sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-inner border border-white/20">
+                    <i class="fa-solid fa-school text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-tight">Control de Daños</h1>
+                    <p class="text-xs text-indigo-200 font-medium">Complejo Educativo Pedro F. Cantor</p>
+                </div>
+            </div>
+            <!-- Botón para regresar al index principal -->
+            <a href="index.html" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 shadow-sm">
+                <i class="fa-solid fa-house"></i> <span>Inicio</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white p-6 sm:p-10 transition-all duration-300">
+            <div class="mb-8 border-b border-slate-100 pb-5">
+                <div class="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">Sistema de Registro Cloud</div>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Nuevo Reporte de Incidencia</h2>
+                <p class="text-sm text-slate-500 mt-1">Selecciona los elementos dañados, indica la cantidad de cada uno y completa la información solicitada.</p>
+            </div>
+
+            <form id="reportForm" class="space-y-6">
+                <!-- Ubicación: Escuela o Grado -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-3">¿Dónde se encuentra el daño?</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <label class="group relative border-2 border-slate-200 rounded-2xl p-4 flex items-center space-x-3 cursor-pointer hover:border-indigo-500 hover:bg-indigo-50/40 transition-all duration-300 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/70 has-[:checked]:shadow-md">
+                            <input type="radio" name="ubicacionTipo" value="Escuela" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4" required onchange="toggleUbicacion('Escuela')">
+                            <div>
+                                <span class="font-bold block text-slate-800 group-hover:text-indigo-900">Infraestructura / Escuela</span>
+                                <span class="text-xs text-slate-500">Áreas comunes, pasillos, baños, dirección, etc.</span>
+                            </div>
+                        </label>
+                        <label class="group relative border-2 border-slate-200 rounded-2xl p-4 flex items-center space-x-3 cursor-pointer hover:border-indigo-500 hover:bg-indigo-50/40 transition-all duration-300 has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/70 has-[:checked]:shadow-md">
+                            <input type="radio" name="ubicacionTipo" value="Grado" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4" required onchange="toggleUbicacion('Grado')">
+                            <div>
+                                <span class="font-bold block text-slate-800 group-hover:text-indigo-900">Grado / Salón de Clases</span>
+                                <span class="text-xs text-slate-500">Aula específica de bachillerato o contador.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Opciones si es Grado (Oculto por defecto) -->
+                <div id="gradoContainer" class="hidden space-y-4 p-5 bg-gradient-to-r from-indigo-50/60 to-blue-50/60 rounded-2xl border border-indigo-100 shadow-inner">
+                    <h3 class="text-xs font-black text-indigo-900 uppercase tracking-widest flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap"></i> Detalles del Grado
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Especialidad y Año</label>
+                            <select id="especialidadGrado" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition shadow-sm">
+                                <option value="">Seleccione especialidad / año</option>
+                                <option value="1° Bachillerato General">1° Bachillerato General</option>
+                                <option value="2° Bachillerato General">2° Bachillerato General</option>
+                                <option value="1° Contador">1° Contador</option>
+                                <option value="2° Contador">2° Contador</option>
+                                <option value="3° Contador">3° Contador</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Sección</label>
+                            <select id="seccionGrado" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition shadow-sm">
+                                <option value="">Seleccione sección</option>
+                                <option value="Sección A">Sección A</option>
+                                <option value="Sección B">Sección B</option>
+                                <option value="Sección C">Sección C</option>
+                                <option value="Sección D">Sección D</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opciones si es Escuela (Oculto por defecto) -->
+                <div id="escuelaContainer" class="hidden space-y-4 p-5 bg-gradient-to-r from-blue-50/60 to-sky-50/60 rounded-2xl border border-blue-100 shadow-inner">
+                    <h3 class="text-xs font-black text-blue-900 uppercase tracking-widest flex items-center gap-2">
+                        <i class="fa-solid fa-building-columns"></i> Área de la Escuela
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Especifique el lugar</label>
+                        <input type="text" id="lugarEscuela" placeholder="Ej. Baños de varones, Cancha principal, Dirección..." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Selección Múltiple con Cantidades Individuales -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Elementos Dañados y Cantidades <span class="text-xs font-normal text-slate-500">(Selecciona y ajusta cuántos hay arruinados)</span></label>
+                    <div class="space-y-3 bg-slate-50/70 p-4 rounded-2xl border border-slate-200">
+                        
+                        <!-- Ítem 1 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Silla Pupitre" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Silla Pupitre</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 2 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Mesa / Escritorio" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Mesa / Escritorio</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 3 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Lámpara / Foco" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Lámpara / Foco</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 4 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Ventana / Vidrio" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Ventana / Vidrio</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 5 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Puerta / Cerradura" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Puerta / Cerradura</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 6 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Pizarra" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Pizarra</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 7 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Ventilador / Aire acondicionado" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Ventilador / Aire acondicionado</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 8 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Toma corriente / Cableado" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Toma corriente / Cableado</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                        <!-- Ítem 9 -->
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm gap-3">
+                            <label class="flex items-center space-x-3 cursor-pointer flex-grow">
+                                <input type="checkbox" name="elementoCheck" value="Otro" class="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500" onchange="toggleCantidadInput(this)">
+                                <span class="text-xs sm:text-sm font-semibold text-slate-700">Otro elemento</span>
+                            </label>
+                            <input type="number" name="elementoCantidad" min="1" value="1" disabled class="w-20 bg-slate-100 border border-slate-300 rounded-lg p-1.5 text-center text-xs font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition disabled:opacity-50">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Reportado por (Nombre)</label>
+                    <input type="text" id="reportadoPor" placeholder="Tu nombre completo" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition shadow-sm" required>
+                </div>
+
+                <!-- Descripción del daño -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Descripción del problema</label>
+                    <textarea id="descripcionDaño" rows="3" placeholder="Describa brevemente qué daño tienen los objetos seleccionados..." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition shadow-sm" required></textarea>
+                </div>
+
+                <!-- Imagen o Foto opcional -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Evidencia Fotográfica <span class="text-slate-400 font-normal">(Opcional)</span></label>
+                    <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 bg-slate-50 hover:bg-indigo-50/20 transition text-center">
+                        <input type="file" id="imagenDaño" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer transition">
+                    </div>
+                </div>
+
+                <!-- Botón de Envío -->
+                <div class="pt-4 border-t border-slate-100">
+                    <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-indigo-200 transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Reporte a la Nube
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/60 backdrop-blur-md border-t border-slate-200 py-4 text-center text-xs text-slate-500 font-medium">
+        Complejo Educativo Pedro F. Cantor &copy; 2026 - Sistema de Control de Daños
+    </footer>
+
+    <!-- Notificación emergente (Toast) -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-50 border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-semibold">Reporte enviado con éxito</span>
+    </div>
+
+    <!-- Script de funcionamiento con Firebase Realtime Database -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDadrGKG8ye32lc8UgOBb2N4VLCe85ASoE",
+            authDomain: "escuelapedrofcantor.firebaseapp.com",
+            projectId: "escuelapedrofcantor",
+            storageBucket: "escuelapedrofcantor.firebasestorage.app",
+            messagingSenderId: "286529428609",
+            appId: "1:286529428609:web:6802a61661fb14baae8180"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.toggleUbicacion = function(tipo) {
+            const gradoContainer = document.getElementById('gradoContainer');
+            const escuelaContainer = document.getElementById('escuelaContainer');
+            
+            if (tipo === 'Grado') {
+                gradoContainer.classList.remove('hidden');
+                escuelaContainer.classList.add('hidden');
+                document.getElementById('especialidadGrado').required = true;
+                document.getElementById('seccionGrado').required = true;
+                document.getElementById('lugarEscuela').required = false;
+            } else {
+                gradoContainer.classList.add('hidden');
+                escuelaContainer.classList.remove('hidden');
+                document.getElementById('especialidadGrado').required = false;
+                document.getElementById('seccionGrado').required = false;
+                document.getElementById('lugarEscuela').required = true;
+            }
+        }
+
+        window.toggleCantidadInput = function(checkbox) {
+            const numberInput = checkbox.closest('div').querySelector('input[name="elementoCantidad"]');
+            if (checkbox.checked) {
+                numberInput.disabled = false;
+                numberInput.classList.remove('bg-slate-100', 'opacity-50');
+                numberInput.classList.add('bg-white');
+            } else {
+                numberInput.disabled = true;
+                numberInput.classList.add('bg-slate-100', 'opacity-50');
+                numberInput.classList.remove('bg-white');
+            }
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.textContent = message;
+            if (isError) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-400 text-lg';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400 text-lg';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const ubicacionTipo = document.querySelector('input[name="ubicacionTipo"]:checked').value;
+            let ubicacionDetalle = '';
+
+            if (ubicacionTipo === 'Grado') {
+                const esp = document.getElementById('especialidadGrado').value;
+                const sec = document.getElementById('seccionGrado').value;
+                ubicacionDetalle = `${esp} - ${sec}`;
+            } else {
+                ubicacionDetalle = document.getElementById('lugarEscuela').value;
+            }
+
+            const checks = document.querySelectorAll('input[name="elementoCheck"]:checked');
+            if (checks.length === 0) {
+                showToast('Por favor selecciona al menos un elemento dañado.', true);
+                return;
+            }
+
+            let elementosLista = [];
+            checks.forEach(chk => {
+                const cantidad = chk.closest('div').querySelector('input[name="elementoCantidad"]').value;
+                elementosLista.push(`${cantidad} ${chk.value}`);
+            });
+            const elementosFinales = elementosLista.join(', ');
+
+            const reportadoPor = document.getElementById('reportadoPor').value;
+            const descripcion = document.getElementById('descripcionDaño').value;
+            const imageInput = document.getElementById('imagenDaño');
+
+            const guardarReporteEnFirebase = (imagenUrl = '') => {
+                const nuevoReporte = {
+                    id: 'REP-' + Math.floor(1000 + Math.random() * 9000),
+                    fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    tipoUbicacion: ubicacionTipo,
+                    ubicacion: ubicacionDetalle,
+                    elemento: elementosFinales,
+                    reportadoPor: reportadoPor,
+                    descripcion: descripcion,
+                    imagen: imagenUrl,
+                    estado: 'Pendiente'
+                };
+
+                // Enviar a Firebase Realtime Database en la ruta 'danos'
+                push(ref(db, 'danos'), nuevoReporte)
+                    .then(() => {
+                        showToast('¡Reporte enviado y registrado en la nube con éxito!');
+                        document.getElementById('reportForm').reset();
+                        document.getElementById('gradoContainer').classList.add('hidden');
+                        document.getElementById('escuelaContainer').classList.add('hidden');
+                        
+                        document.querySelectorAll('input[name="elementoCantidad"]').forEach(input => {
+                            input.disabled = true;
+                            input.classList.add('bg-slate-100', 'opacity-50');
+                            input.classList.remove('bg-white');
+                        });
+                    })
+                    .catch((error) => {
+                        showToast('Error al conectar con la nube: ' + error.message, true);
+                    });
+            };
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    guardarReporteEnFirebase(event.target.result);
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                guardarReporteEnFirebase();
+            }
+        });
+    </script>
+</body>
+</html>
