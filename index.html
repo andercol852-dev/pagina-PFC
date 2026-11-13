@@ -9,83 +9,447 @@
     <!-- FontAwesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
 
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white shadow-xl sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
-        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Header Superior -->
+    <header class="bg-emerald-800 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-inner border border-white/20">
-                    <i class="fa-solid fa-school text-2xl text-amber-300"></i>
+                <!-- Botón para ocultar/mostrar panel lateral -->
+                <button onclick="toggleSidebar()" class="bg-white/10 hover:bg-white/20 p-2.5 rounded-xl border border-white/25 transition text-emerald-100" title="Ocultar/Mostrar Historial">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <div class="bg-white/10 p-2.5 rounded-xl border border-white/20 hidden sm:block">
+                    <i class="fa-solid fa-school text-xl text-amber-300"></i>
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-tight">Portal Institucional</h1>
-                    <p class="text-xs text-emerald-200 font-medium">Complejo Educativo Pedro F. Cantor</p>
+                    <h1 class="font-bold text-base sm:text-lg tracking-tight leading-tight">Portal Institucional</h1>
+                    <p class="text-xs text-emerald-200">Complejo Educativo Pedro F. Cantor</p>
                 </div>
+            </div>
+            <div class="text-xs text-emerald-200 hidden sm:block">
+                <i class="fa-solid fa-circle text-[8px] text-emerald-400 mr-1"></i> Sincronizado en Vivo
             </div>
         </div>
     </header>
 
-    <!-- Main Container / Opciones del Sistema -->
-    <main class="max-w-5xl mx-auto px-4 py-10 w-full flex-grow">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-black text-slate-900 tracking-tight">Sistema de Gestión Escolar</h2>
-            <p class="text-sm text-slate-500 mt-2">Selecciona el módulo al que deseas ingresar:</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 w-full flex-grow">
+        <div class="flex flex-col lg:flex-row gap-8">
             
-            <!-- 1. Módulo de Asistencia -->
-            <a href="asistencia.html" class="bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white flex items-center gap-5 group transform hover:-translate-y-1">
-                <div class="bg-blue-100 text-blue-700 p-4 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
-                    <i class="fa-solid fa-user-check text-2xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-blue-700 transition">Control de Asistencia</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Listas por grado, sección y motivos de ausencia.</p>
-                </div>
-            </a>
+            <!-- PANEL LATERAL IZQUIERDO: Historial limpio y resumido -->
+            <aside id="sidebarPanel" class="w-full lg:w-96 transition-all duration-300 ease-in-out shrink-0">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6 sticky top-24">
+                    
+                    <!-- Avatar e Info del Docente -->
+                    <div class="text-center space-y-3">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-700 font-black text-xl rounded-full flex items-center justify-center mx-auto shadow-inner border-2 border-emerald-500">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <div>
+                            <h2 id="docenteNombre" class="font-bold text-slate-800 text-sm">Docente Encargado</h2>
+                            <p id="docenteEmail" class="text-xs text-slate-500 mt-0.5 break-all">Cargando cuenta...</p>
+                        </div>
+                    </div>
 
-            <!-- 2. Módulo de Inventario / Daños -->
-            <a href="danos.html" class="bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white flex items-center gap-5 group transform hover:-translate-y-1">
-                <div class="bg-indigo-100 text-indigo-700 p-4 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-inner">
-                    <i class="fa-solid fa-boxes-stacked text-2xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-indigo-700 transition">Control de Daños Escolares</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Reporte de mobiliario y equipo dañado con cantidades.</p>
-                </div>
-            </a>
+                    <hr class="border-slate-100">
 
-            <!-- 3. Módulo de Excursión -->
-            <a href="excursion.html" class="bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white flex items-center gap-5 group transform hover:-translate-y-1">
-                <div class="bg-emerald-100 text-emerald-700 p-4 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-inner">
-                    <i class="fa-solid fa-bus text-2xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-emerald-700 transition">Control de Excursión</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Registro consolidado de asistencia y acompañantes por grado.</p>
-                </div>
-            </a>
+                    <!-- SECCIÓN DE HISTORIAL RESUMIDO -->
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Actividad Enviada</span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">Clic para editar lista</span>
+                        </div>
 
-            <!-- 4. Módulo de Reuniones -->
-            <a href="reuniones.html" class="bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white flex items-center gap-5 group transform hover:-translate-y-1">
-                <div class="bg-amber-100 text-amber-700 p-4 rounded-2xl group-hover:bg-amber-600 group-hover:text-white transition-all shadow-inner">
-                    <i class="fa-solid fa-calendar-days text-2xl"></i>
+                        <div id="historialEnviados" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+                            <div class="text-center py-6 text-slate-400 text-xs">
+                                <i class="fa-solid fa-spinner fa-spin mb-1"></i><br>Cargando registros...
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <!-- Opción de Cerrar Sesión -->
+                    <div>
+                        <button onclick="cerrarSesion()" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold py-2.5 px-4 rounded-xl transition text-xs flex items-center justify-center gap-2 border border-rose-200 shadow-sm">
+                            <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                        </button>
+                    </div>
+
                 </div>
+            </aside>
+
+            <!-- CONTENIDO PRINCIPAL: Tarjetas estilo Classroom -->
+            <div class="flex-grow space-y-6">
                 <div>
-                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-amber-700 transition">Gestión de Reuniones</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Programar convocatorias y recibir alertas en tiempo real.</p>
+                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">Clases y Módulos de Gestión</h2>
+                    <p class="text-sm text-slate-500 mt-1">Selecciona una tarjeta para ingresar y enviar reportes:</p>
                 </div>
-            </a>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- 1. Tarjeta Asistencia -->
+                    <a href="asistencia.html" class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 overflow-hidden group flex flex-col justify-between">
+                        <div>
+                            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-5 text-white flex justify-between items-start">
+                                <div>
+                                    <span class="bg-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">modulo 01</span>
+                                    <h3 class="font-bold text-lg mt-2 group-hover:underline">Control de Asistencia</h3>
+                                </div>
+                                <i class="fa-solid fa-user-check text-2xl text-blue-200"></i>
+                            </div>
+                            <div class="p-5 text-xs text-slate-600 space-y-2">
+                                <p>Listados detallados de alumnos por grado, sección y motivos de ausencia.</p>
+                            </div>
+                        </div>
+                        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 text-xs font-bold text-blue-600 flex items-center justify-between">
+                            <span>Ingresar al módulo</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </a>
+
+                    <!-- 2. Tarjeta Daños Escolares -->
+                    <a href="danos.html" class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 overflow-hidden group flex flex-col justify-between">
+                        <div>
+                            <div class="bg-gradient-to-r from-indigo-600 to-violet-700 p-5 text-white flex justify-between items-start">
+                                <div>
+                                    <span class="bg-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Módulo 02</span>
+                                    <h3 class="font-bold text-lg mt-2 group-hover:underline">Control de Daños Escolares</h3>
+                                </div>
+                                <i class="fa-solid fa-boxes-stacked text-2xl text-indigo-200"></i>
+                            </div>
+                            <div class="p-5 text-xs text-slate-600 space-y-2">
+                                <p>Reporte de mobiliario, pupitres e infraestructura averiada con cantidades exactas.</p>
+                            </div>
+                        </div>
+                        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 text-xs font-bold text-indigo-600 flex items-center justify-between">
+                            <span>Ingresar al módulo</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </a>
+
+                    <!-- 3. Tarjeta Excursión -->
+                    <a href="excursion.html" class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 overflow-hidden group flex flex-col justify-between">
+                        <div>
+                            <div class="bg-gradient-to-r from-emerald-600 to-teal-700 p-5 text-white flex justify-between items-start">
+                                <div>
+                                    <span class="bg-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Módulo 03</span>
+                                    <h3 class="font-bold text-lg mt-2 group-hover:underline">Control de Excursión</h3>
+                                </div>
+                                <i class="fa-solid fa-bus text-2xl text-emerald-200"></i>
+                            </div>
+                            <div class="p-5 text-xs text-slate-600 space-y-2">
+                                <p>Registro consolidado de alumnos que asistirán, no asistirán y acompañantes.</p>
+                            </div>
+                        </div>
+                        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 text-xs font-bold text-emerald-600 flex items-center justify-between">
+                            <span>Ingresar al módulo</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </a>
+
+                    <!-- 4. Tarjeta Reuniones -->
+                    <a href="reuniones.html" class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 overflow-hidden group flex flex-col justify-between">
+                        <div>
+                            <div class="bg-gradient-to-r from-amber-600 to-orange-700 p-5 text-white flex justify-between items-start">
+                                <div>
+                                    <span class="bg-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Módulo 04</span>
+                                    <h3 class="font-bold text-lg mt-2 group-hover:underline">Gestión de Reuniones</h3>
+                                </div>
+                                <i class="fa-solid fa-calendar-days text-2xl text-amber-200"></i>
+                            </div>
+                            <div class="p-5 text-xs text-slate-600 space-y-2">
+                                <p>Programar convocatorias institucionales y recibir alertas en tiempo real.</p>
+                            </div>
+                        </div>
+                        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 text-xs font-bold text-amber-600 flex items-center justify-between">
+                            <span>Ingresar al módulo</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
 
         </div>
     </main>
 
+    <!-- MODAL INTERACTIVO PARA EDITAR LA LISTA DE ALUMNOS -->
+    <div id="modalEditar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 space-y-4 border border-slate-100 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                <div>
+                    <h3 id="modalTituloGrado" class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-users-gear text-blue-600"></i> Editar Asistencia del Grado
+                    </h3>
+                    <p class="text-xs text-slate-500">Modifica el estado o motivo de los alumnos y guarda los cambios.</p>
+                </div>
+                <button onclick="cerrarModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Contenedor dinámico de la lista de alumnos en el modal -->
+            <div id="modalListaAlumnos" class="overflow-y-auto space-y-2 pr-1 flex-grow max-h-96">
+                <!-- Se inyecta la lista con checkboxes y selectores de motivos aquí -->
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex gap-2">
+                <button type="button" onclick="cerrarModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">
+                    Cancelar
+                </button>
+                <button type="button" onclick="guardarCambiosModal()" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-md">
+                    Guardar Cambios
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-white/60 backdrop-blur-md border-t border-slate-200 py-4 text-center text-xs text-slate-500 font-medium">
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 font-medium">
         Complejo Educativo Pedro F. Cantor &copy; 2026 - Izalco, El Salvador
     </footer>
+
+    <!-- Script de Firebase y lógica del modal interactivo -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+        import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDadrGKG8ye32lc8UgOBb2N4VLCe85ASoE",
+            authDomain: "escuelapedrofcantor.firebaseapp.com",
+            projectId: "escuelapedrofcantor",
+            storageBucket: "escuelapedrofcantor.firebasestorage.app",
+            messagingSenderId: "286529428609",
+            appId: "1:286529428609:web:6802a61661fb14baae8180"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "../auth/login.html";
+            } else {
+                document.getElementById('docenteEmail').textContent = user.email;
+                const nombreUsuario = user.email.split('@')[0];
+                document.getElementById('docenteNombre').textContent = nombreUsuario.charAt(0).toUpperCase() + nombreUsuario.slice(1);
+            }
+        });
+
+        const historialContainer = document.getElementById('historialEnviados');
+        let datosGlobales = {};
+        let registroActivoKey = null;
+
+        const rutasNube = [
+            { nombre: 'Asistencia', ruta: 'asistencia', icono: 'fa-user-check' },
+            { nombre: 'Daños', ruta: 'danos', icono: 'fa-boxes-stacked' },
+            { nombre: 'Excursión', ruta: 'excursiones', icono: 'fa-bus' }
+        ];
+
+        rutasNube.forEach(item => {
+            onValue(ref(db, item.ruta), (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    datosGlobales[item.ruta] = Object.entries(data).map(([key, val]) => ({ key, ...val }));
+                } else {
+                    datosGlobales[item.ruta] = [];
+                }
+                renderizarHistorial();
+            });
+        });
+
+        // Historial limpio y resumido en el panel lateral
+        function renderizarHistorial() {
+            historialContainer.innerHTML = '';
+            let totalItems = 0;
+
+            for (let tipo in datosGlobales) {
+                let lista = datosGlobales[tipo];
+                totalItems += lista.length;
+
+                lista.forEach(reg => {
+                    let fechaStr = reg.fecha || 'Fecha reciente';
+                    let detalleContenido = '';
+                    let badgeTipo = '';
+                    let clickAccion = '';
+
+                    if (tipo === 'asistencia') {
+                        badgeTipo = '<span class="text-[10px] bg-blue-100 text-blue-700 font-bold px-1.5 py-0.5 rounded">Asistencia - ' + (reg.gradoSeccion || '') + '</span>';
+                        
+                        detalleContenido = `
+                            <div class="font-bold text-slate-800">Presentes: ${reg.presentes} | Ausentes: ${reg.ausentesTotal}</div>
+                            <p class="text-[11px] text-slate-500 italic mt-0.5">Clic para ver y editar listado de alumnos</p>
+                        `;
+                        
+                        const regJson = encodeURIComponent(JSON.stringify(reg));
+                        clickAccion = `onclick='abrirModalEditar("${reg.key}", "${reg.gradoSeccion || ""}", "${regJson}")'`;
+                    } else if (tipo === 'danos') {
+                        badgeTipo = '<span class="text-[10px] bg-indigo-100 text-indigo-700 font-bold px-1.5 py-0.5 rounded">Daño</span>';
+                        detalleContenido = `<p class="text-slate-700 font-medium">${reg.ubicacion}: ${reg.elemento} (${reg.descripcion || 'Sin desc.'})</p>`;
+                    } else if (tipo === 'excursiones') {
+                        badgeTipo = '<span class="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-1.5 py-0.5 rounded">Excursión</span>';
+                        detalleContenido = `<p class="text-slate-700 font-medium">${reg.especialidad} (${reg.seccion}) — Asistirán: ${reg.asistiran}</p>`;
+                    }
+
+                    let cursorStyle = tipo === 'asistencia' ? 'cursor-pointer hover:border-blue-400 hover:bg-blue-50/40 shadow-2xs' : '';
+
+                    historialContainer.innerHTML += `
+                        <div ${clickAccion} class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1 transition ${cursorStyle}">
+                            <div class="flex justify-between items-center">
+                                ${badgeTipo}
+                                <span class="text-[10px] text-slate-400 font-mono">${fechaStr}</span>
+                            </div>
+                            <div>${detalleContenido}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            if (totalItems === 0) {
+                historialContainer.innerHTML = `
+                    <div class="text-center py-6 text-slate-400 text-xs">
+                        <i class="fa-solid fa-inbox text-lg mb-1"></i><br>No hay reportes enviados todavía.
+                    </div>
+                `;
+            }
+        }
+
+        // Abrir modal y generar el menú interactivo con la lista de alumnos guardada
+        window.abrirModalEditar = function(key, grado, regJson) {
+            registroActivoKey = key;
+            document.getElementById('modalTituloGrado').innerHTML = `<i class="fa-solid fa-users-gear text-blue-600"></i> Editar Asistencia: ${grado}`;
+            
+            const reg = JSON.parse(decodeURIComponent(regJson));
+            const contenedorLista = document.getElementById('modalListaAlumnos');
+            contenedorLista.innerHTML = '';
+
+            if (reg.detalleAlumnos && Array.isArray(reg.detalleAlumnos)) {
+                reg.detalleAlumnos.forEach((item, index) => {
+                    let esPresente = item.includes('Presente');
+                    let motivoActual = "Sin justificación";
+                    if (!esPresente) {
+                        if (item.includes('(Permiso)')) motivoActual = "Permiso";
+                        else if (item.includes('(Enfermedad)')) motivoActual = "Enfermedad";
+                        else if (item.includes('(Sin justificación)')) motivoActual = "Sin justificación";
+                    }
+
+                    let nombreAlumno = item.split(' - ')[0];
+
+                    // Detección automática del género basado en la lista estándar de alumnos
+                    let genero = (index === 1 || index === 3 || nombreAlumno.toLowerCase().includes('sofia') || nombreAlumno.toLowerCase().includes('gabriela') || nombreAlumno.toLowerCase().includes('alumna')) ? "F" : "M";
+
+                    contenedorLista.innerHTML += `
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 fila-modal-alumno" data-nombre="${nombreAlumno}" data-genero="${genero}">
+                            <span class="text-xs font-bold text-slate-800">${index + 1}. ${nombreAlumno}</span>
+                            <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                                <label class="inline-flex items-center cursor-pointer gap-1.5">
+                                    <input type="checkbox" ${esPresente ? 'checked' : ''} onchange="cambiarEstadoModal(this)" class="chk-modal-asistencia w-4 h-4 text-emerald-600 rounded accent-emerald-600">
+                                    <span class="text-xs font-bold ${esPresente ? 'text-emerald-600' : 'text-rose-600'} lbl-modal-estado">${esPresente ? 'Presente' : 'Ausente'}</span>
+                                </label>
+                                <select class="sel-modal-motivo ${esPresente ? 'hidden' : ''} bg-rose-50 border border-rose-300 text-rose-700 text-[11px] font-bold rounded-lg px-2 py-1 outline-none">
+                                    <option value="Sin justificación" ${motivoActual === 'Sin justificación' ? 'selected' : ''}>Sin justificación</option>
+                                    <option value="Permiso" ${motivoActual === 'Permiso' ? 'selected' : ''}>Con permiso</option>
+                                    <option value="Enfermedad" ${motivoActual === 'Enfermedad' ? 'selected' : ''}>Por enfermedad</option>
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                contenedorLista.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">No hay detalle de alumnos registrado para este elemento.</p>`;
+            }
+
+            document.getElementById('modalEditar').classList.remove('hidden');
+        }
+
+        window.cambiarEstadoModal = function(checkbox) {
+            const contenedor = checkbox.closest('.fila-modal-alumno');
+            const lbl = contenedor.querySelector('.lbl-modal-estado');
+            const select = contenedor.querySelector('.sel-modal-motivo');
+
+            if (checkbox.checked) {
+                lbl.textContent = "Presente";
+                lbl.className = "text-xs font-bold text-emerald-600 lbl-modal-estado";
+                select.classList.add('hidden');
+            } else {
+                lbl.textContent = "Ausente";
+                lbl.className = "text-xs font-bold text-rose-600 lbl-modal-estado";
+                select.classList.remove('hidden');
+            }
+        }
+
+        window.cerrarModal = function() {
+            document.getElementById('modalEditar').classList.add('hidden');
+            registroActivoKey = null;
+        }
+
+        // Guardar las correcciones hechas desde el menú flotante en Firebase (incluyendo géneros frescos)
+        window.guardarCambiosModal = function() {
+            if (!registroActivoKey) return;
+
+            let nuevosPresentes = 0;
+            let nuevosAusentes = 0;
+            let masculinosCount = 0;
+            let femeninosCount = 0;
+            let nuevaListaDetalle = [];
+
+            const filas = document.querySelectorAll('.fila-modal-alumno');
+            filas.forEach(fila => {
+                const nombre = fila.getAttribute('data-nombre');
+                const genero = fila.getAttribute('data-genero');
+                const chk = fila.querySelector('.chk-modal-asistencia');
+
+                if (chk.checked) {
+                    nuevosPresentes++;
+                    if (genero === 'M') masculinosCount++;
+                    if (genero === 'F') femeninosCount++;
+                    nuevaListaDetalle.push(`${nombre} - Presente`);
+                } else {
+                    nuevosAusentes++;
+                    const motivo = fila.querySelector('.sel-modal-motivo').value;
+                    nuevaListaDetalle.push(`${nombre} - Faltó (${motivo})`);
+                }
+            });
+
+            const tituloTexto = document.getElementById('modalTituloGrado').textContent;
+            const gradoSeccion = tituloTexto.replace('Editar Asistencia: ', '').trim();
+
+            const datosActualizados = {
+                gradoSeccion: gradoSeccion,
+                presentes: nuevosPresentes.toString(),
+                ausentesTotal: nuevosAusentes.toString(),
+                masculinos: masculinosCount.toString(), // Recalcula y envía los varones
+                femeninos: femeninosCount.toString(),     // Recalcula y envía las mujeres
+                detalleAlumnos: nuevaListaDetalle,
+                fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ' (Corregido)'
+            };
+
+            update(ref(db, `asistencia/${registroActivoKey}`), datosActualizados)
+                .then(() => {
+                    cerrarModal();
+                })
+                .catch((error) => {
+                    alert("Error al actualizar: " + error.message);
+                });
+        }
+
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebarPanel');
+            sidebar.classList.toggle('hidden');
+        };
+
+        window.cerrarSesion = function() {
+            signOut(auth).then(() => {
+                window.location.href = "../auth/login.html";
+            }).catch((error) => {
+                alert("Error al salir: " + error.message);
+            });
+        };
+    </script>
 
 </body>
 </html>
