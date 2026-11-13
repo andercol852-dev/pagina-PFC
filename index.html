@@ -232,7 +232,7 @@
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                window.location.href = "https://andercol852-dev.github.io/admin-pfc/";
+              window.location.href = 'https://andercol852-dev.github.io/admin-pfc/login.html';
             } else {
                 document.getElementById('docenteEmail').textContent = user.email;
                 const nombreUsuario = user.email.split('@')[0];
